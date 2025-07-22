@@ -12,7 +12,7 @@ if __name__ == "__main__":
     print_start("std.out")
     set_allocate.allocate_arrays()
     read_structure("input.inp")
-    
+
     calc_constant()
     check_input(output_file="std.out")
 

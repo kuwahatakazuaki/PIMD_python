@@ -61,8 +61,8 @@ def read_parameter(filename="input.inp"):
             P.dt = get_value()
         elif line.startswith("$Isimulation"):
             P.Isimulation = get_value()
-        # elif line.startswith("$Nref"):
-        #     P.Nref = get_value()
+        elif line.startswith("$seed"):
+            P.Iseed = get_value()
         elif line.startswith("$out_step"):
             P.out_step = get_value()
         # elif line.startswith("$Nys"):

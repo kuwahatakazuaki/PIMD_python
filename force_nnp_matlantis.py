@@ -62,27 +62,26 @@ def force_nnp_matlantis():
 
     run_matlantis.run_cal()
 
-    # 力の読み込み
-    if not os.path.exists(Fforce):
-        program_abort(f'ERROR!!! There is no "{Fforce}"')
+    # # 力の読み込み
+    # if not os.path.exists(Fforce):
+    #     program_abort(f'ERROR!!! There is no "{Fforce}"')
 
-    with open(Fforce, "r") as f:
-        for j in range(P.Nbead):
-            for i in range(P.Natom):
-                line = f.readline()
-                P.fr[:, i, j] = np.fromstring(line, sep=" ")
+    # with open(Fforce, "r") as f:
+    #     for j in range(P.Nbead):
+    #         for i in range(P.Natom):
+    #             line = f.readline()
+    #             P.fr[:, i, j] = np.fromstring(line, sep=" ")
 
-    # エネルギーの読み込み
-    if not os.path.exists(Fenergy):
-        program_abort(f'There is no "{Fenergy}"')
+    # # エネルギーの読み込み
+    # if not os.path.exists(Fenergy):
+    #     program_abort(f'There is no "{Fenergy}"')
 
-    with open(Fenergy, "r") as f:
-        for j in range(P.Nbead):
-            P.Eenergy[j] = float(f.readline())
+    # with open(Fenergy, "r") as f:
+    #     for j in range(P.Nbead):
+    #         P.Eenergy[j] = float(f.readline())
 
-    # 単位変換
-    P.fr *= P.eVAng2AU * P.dp_inv
-    P.Eenergy *= P.eVtoAU
-    P.potential = np.sum(P.Eenergy) * P.dp_inv
+    # P.fr *= P.eVAng2AU * P.dp_inv
+    # P.Eenergy *= P.eVtoAU
+    # P.potential = np.sum(P.Eenergy) * P.dp_inv
 
 

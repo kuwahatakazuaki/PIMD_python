@@ -29,10 +29,7 @@ $address_result   # Result directory
 $address_scr      # Scretch directory
 ./Scr
 $seed
-1
-3
-5
-7
+101
 $Langstrom        # Coordinate in Angstrom (True of False)
 True
 $Lperiodic        # Periodic boundary condition (True of False)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import parameters as P
 import numpy as np
-# from utility import norm_seq
 from mod_md_subroutine import get_kinetic_ene, norm_seq
 # from ase import Atoms
 # from ase.md.velocitydistribution import MaxwellBoltzmannDistribution
@@ -174,6 +173,7 @@ def init_velocity():
     各原子・各ビーズに対して Maxwell 分布に基づいた初速度を設定する。
     結果は P.vur[3, Natom, Nbead] に格納される。
     """
+    np.random.seed(P.Iseed)
     for imode in range(P.Nbead):
         for iatom in range(P.Natom):
             vsigma = np.sqrt(1.0 / P.beta / P.fictmass[iatom, imode])

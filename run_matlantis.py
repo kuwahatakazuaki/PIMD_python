@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# from ase import Atoms
 from ase.io import read
 import numpy as np
 import sys
@@ -51,14 +50,32 @@ def run_cal():
         forces = atoms.get_forces()
         # charges = atoms.get_charges()
 
-        if i == 0:
-            all_forces = forces
-        else:
-            all_forces = np.concatenate([all_forces,forces])
-        all_energy = np.append(all_energy,energy)
+        P.Eenergy[i] = energy
+        for j in range(P.Natom):
+            P.fr[:, j, i] = forces[j, :]
+
+        # if i == 0:
+        #     all_forces = forces
+        # else:
+        #     all_forces = np.concatenate([all_forces,forces])
+        # all_energy = np.append(all_energy,energy)
 
 
-    np.savetxt(Fforce,all_forces)
-    np.savetxt(Fenergy,all_energy)
+    # with open(Fforce, "r") as f:
+    #     for j in range(P.Nbead):
+    #         for i in range(P.Natom):
+    #             line = f.readline()
+    #             P.fr[:, i, j] = np.fromstring(line, sep=" ")
+
+    # with open(Fenergy, "r") as f:
+    #     for j in range(P.Nbead):
+    #         P.Eenergy[j] = float(f.readline())
+
+    P.fr *= P.eVAng2AU * P.dp_inv
+    P.Eenergy *= P.eVtoAU
+    P.potential = np.sum(P.Eenergy) * P.dp_inv
+
+    # np.savetxt(Fforce,all_forces)
+    # np.savetxt(Fenergy,all_energy)
 
 

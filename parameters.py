@@ -25,20 +25,37 @@ eVAng2AU = (1.0 / 27.21162) * 0.529177249
 # ----------------------------
 # パラメータ（実行前に read_parameter 等で代入）
 # ----------------------------
-Natom       = -1   # 原子数
-Nbead       = -1   # ビーズ数（パス積分の数）
-Nnhc        = -1   # NHC熱浴の自由度
-Nys         = 5   # YS法の重み数
-Ncent       = -1   # 中心点設定（例: 3で中心重心など）
-Nstep       = -1   # MDステップ数
-temperature = -1.0 # 温度（K）
-dt          = -1.0 # タイムステップ（fs）
-Isimulation = -1   # シミュレーションタイプ（古典 or PIMD）
-Nref        = 5
-gamma1      = 1.0
-gamma2      = 0.0
-istepsv     = 0
-Irestep     = 0
+Natom: int        = -1   # 原子数
+Nbead: int        = -1   # ビーズ数（パス積分の数）
+Nnhc: int         = -1   # NHC熱浴の自由度
+Nys: int          = 5    # YS法の重み数
+Ncent: int        = -1   # 中心点設定（例: 3で中心重心など）
+Nstep: int        = -1   # MDステップ数
+temperature: float = -1.0 # 温度（K）
+dt: float         = -1.0 # タイムステップ（fs）
+Isimulation: int  = -1   # シミュレーションタイプ（古典 or PIMD）
+Nref: int         = 5
+gamma1: float     = 1.0
+gamma2: float     = 0.0
+istepsv: int      = 0
+Irestep: int      = 0
+Iseed: int       = 0
+
+# Natom       = -1   # 原子数
+# Nbead       = -1   # ビーズ数（パス積分の数）
+# Nnhc        = -1   # NHC熱浴の自由度
+# Nys         = 5   # YS法の重み数
+# Ncent       = -1   # 中心点設定（例: 3で中心重心など）
+# Nstep       = -1   # MDステップ数
+# temperature = -1.0 # 温度（K）
+# dt          = -1.0 # タイムステップ（fs）
+# Isimulation = -1   # シミュレーションタイプ（古典 or PIMD）
+# Nref        = 5
+# gamma1      = 1.0
+# gamma2      = 0.0
+# istepsv     = 0
+# Irestep     = 0
+# Iseeds: int = 0
 
 
 # ----------------------------
@@ -131,7 +148,6 @@ Lrandom_coor = False
 #     out_step: int = 1
 #     Ncent: int = 0
 #     Irestep: int = 0
-#     Iseeds: int = 0
 #     laddress: int = 0
 #     istepsv: int = 0
 
