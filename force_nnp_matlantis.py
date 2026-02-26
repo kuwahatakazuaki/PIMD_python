@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# force_nnp_matlantis.py
 import numpy as np
 import os
 import subprocess

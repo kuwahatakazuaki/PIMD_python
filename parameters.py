@@ -41,22 +41,6 @@ istepsv: int      = 0
 Irestep: int      = 0
 Iseed: int       = 0
 
-# Natom       = -1   # 原子数
-# Nbead       = -1   # ビーズ数（パス積分の数）
-# Nnhc        = -1   # NHC熱浴の自由度
-# Nys         = 5   # YS法の重み数
-# Ncent       = -1   # 中心点設定（例: 3で中心重心など）
-# Nstep       = -1   # MDステップ数
-# temperature = -1.0 # 温度（K）
-# dt          = -1.0 # タイムステップ（fs）
-# Isimulation = -1   # シミュレーションタイプ（古典 or PIMD）
-# Nref        = 5
-# gamma1      = 1.0
-# gamma2      = 0.0
-# istepsv     = 0
-# Irestep     = 0
-# Iseeds: int = 0
-
 
 # ----------------------------
 # 配列（allocate_arrays で代入される）
@@ -73,6 +57,7 @@ fictmass   = None
 alabel     = None
 Eenergy    = None
 ysweight   = None
+lattice    = np.zeros((3,3))
 
 # 経路積分用
 qmass      = None

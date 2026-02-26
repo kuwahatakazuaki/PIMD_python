@@ -6,7 +6,6 @@ def allocate_arrays():
     """
     各変数を NumPy 配列としてグローバルに初期化する（Fortranの allocate に相当）
     """
-
     P.atom_num   = np.zeros(P.Natom, dtype=int)
     P.r          = np.zeros((3, P.Natom, P.Nbead))
     P.ur         = np.zeros((3, P.Natom, P.Nbead))
@@ -16,6 +15,7 @@ def allocate_arrays():
     P.physmass   = np.zeros(P.Natom)
     P.dnmmass    = np.zeros((P.Natom, P.Nbead))
     P.fictmass   = np.zeros((P.Natom, P.Nbead))
+    # P.lattice    = np.zeros((3,3))
 
     # ラベル・エネルギー
     P.alabel     = np.empty(P.Natom, dtype=object)
@@ -50,20 +50,6 @@ def allocate_arrays():
 #     Allocate and return all required simulation arrays as a dictionary.
 #     """
 
-#     arrays = {
-#         "atom_num": np.zeros(Natom, dtype=int),
-#         "r":        np.zeros((3, Natom, Nbead)),
-#         "ur":       np.zeros((3, Natom, Nbead)),
-#         "vur":      np.zeros((3, Natom, Nbead)),
-#         "fr":       np.zeros((3, Natom, Nbead)),
-#         "fur":      np.zeros((3, Natom, Nbead)),
-#         "physmass": np.zeros(Natom),
-#         "dnmmass":  np.zeros((Natom, Nbead)),
-#         "fictmass": np.zeros((Natom, Nbead)),
-#         "alabel":   np.empty(Natom, dtype=object),
-#         "Eenergy":  np.zeros(Nbead),
-#         "ysweight": np.zeros(Nys),
-#     }
 
 #     if Isimulation != 10:
 #         arrays.update({

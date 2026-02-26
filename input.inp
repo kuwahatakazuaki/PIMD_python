@@ -22,8 +22,10 @@ $Ncent            # Method of Centroid NHC, 0: NVE
 3
 $Lrestart
 False
-$Iforce           # 1:MOPAC, 6:Gaussian, 8:VASP, 9:SIESTA, 15:Harmonic, 16:Double Morse 31:Water(SPC/F2)
-22
+$LATTICE
+17.0    0.0    0.0
+ 0.0   17.0    0.0
+ 0.0    0.0   17.0
 $address_result   # Result directory
 ./Result
 $address_scr      # Scretch directory
@@ -43,6 +45,7 @@ False
 $Lexit            # Exit the program (True of False)
 False
 $end parameter
+
 
 $Coords
 O        0.784141   -1.747496   -0.420830

@@ -8,12 +8,7 @@ def read_parameter(filename="input.inp"):
     入力ファイル input.inp を読み込み、各種パラメータを個別変数に代入する。
     $Coords ～ $end Coords の行数から Natom を自動的に設定する。
     """
-
-    # global Natom, Nbead, Nstep, temperature, dt
-    # global Isimulation, Nref, out_step, Nys, Nnhc, Ncent
-    # 初期化
-    # Natom = Nbead = Nstep = Nref = out_step = Nys = Nnhc = Ncent = None
-    # temperature = dt = Isimulation = None
+    # P.lattice    = np.zeros((3,3))
 
     if not os.path.exists(filename):
         raise FileNotFoundError(f'ERROR!!: There is no input file named "{filename}"')
@@ -21,7 +16,6 @@ def read_parameter(filename="input.inp"):
     with open(filename, 'r') as f:
         lines = f.readlines()
 
-    # パラメータと Coords 検出用
     i = 0
     coords_start = coords_end = -1
 
@@ -35,7 +29,7 @@ def read_parameter(filename="input.inp"):
         nonlocal i
         i += 1
         val = lines[i].strip().lower()
-        return val in ['true', '1', 'yes']
+        return val in ['true', '1', 'yes', '.t.',  't']
 
 
     while i < len(lines):
@@ -44,12 +38,7 @@ def read_parameter(filename="input.inp"):
             i += 1
             continue
 
-        # print(line, P.Lrestart, P.Lperiodic)
-        # if line.startswith("$Lrestart"):
-        #     print(line,"Find!!")
-        #     # exit()
-
-        if line.startswith("$Natom"):   # Plrase cut this
+        if line.startswith("$Natom"):
             P.Natom = get_value()
         elif line.startswith("$Nbead"):
             P.Nbead = get_value()
@@ -65,8 +54,6 @@ def read_parameter(filename="input.inp"):
             P.Iseed = get_value()
         elif line.startswith("$out_step"):
             P.out_step = get_value()
-        # elif line.startswith("$Nys"):
-        #     P.Nys = get_value()
         elif line.startswith("$Nnhc"):
             P.Nnhc = get_value()
         elif line.startswith("$Ncent"):
@@ -75,6 +62,14 @@ def read_parameter(filename="input.inp"):
             P.Lperiodic = get_bool()
         elif line.startswith("$Lrestart"):
             P.Lrestart = get_bool()
+        elif line.startswith("$LATTICE"):
+            for j in range(3):
+                i += 1
+                vec = list(map(float, lines[i].strip().split()))
+                if len(vec) != 3:
+                    raise ValueError(f"Invalid LATTICE line at {i+1}: expected 3 values, got {len(vec)}")
+                P.lattice[:, j] = vec  # 列ベクトルとして格納
+                # print(vec)
         elif line.startswith("$Coords"):
             coords_start = i + 1
         elif line.startswith("$end Coords"):
@@ -83,8 +78,7 @@ def read_parameter(filename="input.inp"):
         elif line.startswith("$end Coords"):
             break
         i += 1
-    # print("Lperiodic",P.Lperiodic)
-    # print("Langstrom",P.Langstrom)
+    # print(P.lattice)
     # exit(1)
 
     if coords_start >= 0 and coords_end > coords_start:
