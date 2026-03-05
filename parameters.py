@@ -103,6 +103,11 @@ Lperiodic = True
 Lrestart = False
 Lrandom_coor = False
 
+# Force-field backend options
+ff = "emt"
+model_path = ""
+device = "cpu"
+
 
 
 # import numpy as np

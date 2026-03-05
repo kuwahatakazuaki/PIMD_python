@@ -29,7 +29,13 @@ def read_parameter(filename="input.inp"):
         nonlocal i
         i += 1
         val = lines[i].strip().lower()
-        return val in ['true', '1', 'yes', '.t.',  't']
+      #  return val in ['true', '1', 'yes', '.t.',  't']
+        return val in ['true', '1', 'yes']
+
+    def get_string():
+        nonlocal i
+        i += 1
+        return lines[i].strip()
 
 
     while i < len(lines):
@@ -54,10 +60,26 @@ def read_parameter(filename="input.inp"):
             P.Iseed = get_value()
         elif line.startswith("$out_step"):
             P.out_step = get_value()
+        elif line.startswith("$Nref"):
+            P.Nref = get_value()
+        elif line.startswith("$Nys"):
+            P.Nys = get_value()
         elif line.startswith("$Nnhc"):
             P.Nnhc = get_value()
+        elif line.startswith("$gamma"):
+            P.gamma1 = float(get_value())
         elif line.startswith("$Ncent"):
             P.Ncent = get_value()
+        elif line.startswith("$address_result"):
+            P.dir_result = get_string()
+        elif line.startswith("$address_scr"):
+            P.dir_scr = get_string()
+        elif line.startswith("$ff"):
+            P.ff = get_string().lower()
+        elif line.startswith("$model_path"):
+            P.model_path = get_string()
+        elif line.startswith("$device"):
+            P.device = get_string().lower()
         elif line.startswith("$Lperiodic"):
             P.Lperiodic = get_bool()
         elif line.startswith("$Lrestart"):
@@ -88,6 +110,9 @@ def read_parameter(filename="input.inp"):
 
     if "$end parameter" not in ''.join(lines):
         raise ValueError('ERROR!!: There is no "$end parameter"')
+
+    os.makedirs(P.dir_result, exist_ok=True)
+    os.makedirs(P.dir_scr, exist_ok=True)
 
 
 def check_input(output_file=None):
