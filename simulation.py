@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import parameters as P
-from neural_network import set_nnp_matlantis
 from utility import program_abort
 from restart import restart_read, restart_write, restart_read_cl, restart_write_cl
 from print_start_end import print_ini, print_result_qm, print_ham
@@ -19,7 +18,6 @@ def simulation_qm():
     setup_time_mass()
     normal_mode()
     init_mass()
-    set_nnp_matlantis()
 
     if P.Lrestart:
         restart_read()
@@ -87,7 +85,6 @@ def simulation_qm():
 def simulation_cl():
     setup_time_mass()
     init_mass()
-    set_nnp_matlantis()
 
     # for i in range(P.Natom):
     #     print(P.r[:,i,0])
@@ -135,4 +132,3 @@ def simulation_cl():
 
     with open(P.Fout, "a") as fout:
         fout.write(" " + "*" * 95 + "\n")
-
