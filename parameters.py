@@ -56,6 +56,7 @@ dnmmass    = None
 fictmass   = None
 alabel     = None
 Eenergy    = None
+ase_atoms   = None
 ysweight   = None
 lattice    = np.zeros((3,3))
 

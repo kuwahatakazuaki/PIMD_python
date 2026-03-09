@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-from ase.io import read
 import numpy as np
-import sys
 import parameters as P
 
 _CALCULATOR = None
@@ -65,38 +63,18 @@ def _get_calculator():
         _CALCULATOR_KEY = key
     return _CALCULATOR
 
+
 def run_cal():
     calculator = _get_calculator()
+    atoms_list = getattr(P, "ase_atoms", None)
+    if atoms_list is None:
+        raise ValueError("P.ase_atoms is not prepared. Call prepare_ase_atoms() before run_cal().")
 
-    Fforce = 'forces.out'
-    Fenergy = 'energy.out'
-
-    # (path_dir, Ista, Iend, Lperi) = sys.argv[1:]
-    # Ista = int(Ista)
-    # Iend = int(Iend)
-
-    if P.Lperiodic == True:
-        extension = "vasp"
-    elif P.Lperiodic == False:
-        extension = "xyz"
-    else:
-        print("ERROR!!! Bad statement for periodic condition in run_matlantis.py")
-        sys.exit()
-
-    all_forces = np.array([])
-    all_energy = np.array([])
-
-    for i in range(P.Nbead):
-        path_inp=''
-        Fname = 'str{0:05}.'.format(i+1) + extension
-        path_inp = P.addresstmp + Fname
-
-        atoms = read(path_inp)
+    for i, atoms in enumerate(atoms_list):
         atoms.calc = calculator
 
         energy = atoms.get_total_energy()
         forces = atoms.get_forces()
-        # charges = atoms.get_charges()
 
         P.Eenergy[i] = energy
         for j in range(P.Natom):
@@ -105,4 +83,3 @@ def run_cal():
     P.fr *= P.eVAng2AU * P.dp_inv
     P.Eenergy *= P.eVtoAU
     P.potential = np.sum(P.Eenergy) * P.dp_inv
-
