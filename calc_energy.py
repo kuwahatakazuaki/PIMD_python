@@ -19,42 +19,38 @@ def ham_temp():
     P.temp /= P.Nbead
 
     # --- 量子運動エネルギー（qkinetic） ---
-    qkinetic = 0.0
-    for imode in range(1, P.Nbead):  # 2 to Nbead in Fortran → 1 to Nbead-1 in Python
-        for iatom in range(P.Natom):
-            factqk = 0.5 * P.dnmmass[iatom, imode] * P.omega_p2
-            qkinetic += factqk * norm_seq(P.ur[:, iatom, imode])
-    P.qkinetic = qkinetic
+    ur_noncent = P.ur[:, :, 1:]
+    ur_sq = np.sum(ur_noncent**2, axis=0)
+    factqk = 0.5 * P.dnmmass[:, 1:] * P.omega_p2
+    P.qkinetic = np.sum(factqk * ur_sq)
 
     # --- ハミルトニアン（暫定） ---
-    P.hamiltonian = dkinetic + P.potential + qkinetic
+    P.hamiltonian = dkinetic + P.potential + P.qkinetic
 
     # --- バスエネルギー（非中心） ---
-    ebath = 0.0
     if P.Ncent > 0:
-        for imode in range(1, P.Nbead):
-            qdummy = P.qmass[imode]
-            for inhc in range(P.Nnhc):
-                for iatom in range(P.Natom):
-                    ebath += (
-                        0.5 * qdummy * norm_seq(P.vrbath[:, iatom, inhc, imode])
-                        + P.gkt * np.sum(P.rbath[:, iatom, inhc, imode])
-                    )
-    P.ebath = ebath
+        vrbath_sq = np.sum(P.vrbath[:, :, :, 1:]**2, axis=0)
+        rbath_sum = np.sum(P.rbath[:, :, :, 1:], axis=0)
+        P.ebath = (
+            0.5 * np.sum(P.qmass[1:][None, None, :] * vrbath_sq)
+            + P.gkt * np.sum(rbath_sum)
+        )
+    else:
+        P.ebath = 0.0
 
     # --- バスエネルギー（中心モード用） ---
-    ebath_cent = 0.0
     if P.Ncent == 3:
-        for inhc in range(P.Nnhc):
-            for iatom in range(P.Natom):
-                ebath_cent += (
-                    0.5 * P.qmcent31[inhc] * norm_seq(P.vrbc31[:, iatom, inhc])
-                    + P.gkt * np.sum(P.rbc31[:, iatom, inhc])
-                )
-    P.ebath_cent = ebath_cent
+        vrbc31_sq = np.sum(P.vrbc31**2, axis=0)
+        rbc31_sum = np.sum(P.rbc31, axis=0)
+        P.ebath_cent = (
+            0.5 * np.sum(P.qmcent31[None, :] * vrbc31_sq)
+            + P.gkt * np.sum(rbc31_sum)
+        )
+    else:
+        P.ebath_cent = 0.0
 
     # --- 全体ハミルトニアン更新 ---
-    P.hamiltonian += ebath + ebath_cent
+    P.hamiltonian += P.ebath + P.ebath_cent
 
     # --- ビリアル推定子計算 ---
     virial_estimator()
@@ -69,14 +65,8 @@ def virial_estimator():
     ビリアル推定を行い、P.E_Virial を更新。
     """
 
-    E_Virial = 0.0
-
-    for imode in range(P.Nbead):
-        for iatom in range(P.Natom):
-            diff = P.r[:, iatom, imode] - P.ur[:, iatom, 0]  # ur(:,:,1) → ur[:, :, 0]
-            E_Virial += np.dot(P.fr[:, iatom, imode], diff)
-
-    E_Virial /= 2.0
+    diff = P.r - P.ur[:, :, [0]]
+    E_Virial = 0.5 * np.sum(P.fr * diff)
 
     e_virial1 = 1.5 * float(P.Natom) / P.beta
     P.E_Virial = e_virial1 - E_Virial

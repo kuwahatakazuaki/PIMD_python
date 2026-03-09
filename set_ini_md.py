@@ -242,14 +242,15 @@ def ham_temp_cl():
     P.hamiltonian = dkinetic + P.potential
 
     # Centroid bath energy (if thermostat on centroid)
-    ebath_cent = 0.0
     if P.Ncent == 3:
-        for inhc in range(P.Nnhc):
-            for iatom in range(P.Natom):
-                ebath_cent += (
-                    0.5 * P.qmcent31[inhc] * norm_seq(P.vrbc31[:, iatom, inhc])
-                    + P.gkt * np.sum(P.rbc31[:, iatom, inhc])
-                )
+        vrbc31_sq = np.sum(P.vrbc31**2, axis=0)
+        rbc31_sum = np.sum(P.rbc31, axis=0)
+        ebath_cent = (
+            0.5 * np.sum(P.qmcent31[None, :] * vrbc31_sq)
+            + P.gkt * np.sum(rbc31_sum)
+        )
+    else:
+        ebath_cent = 0.0
 
     # Add bath contribution
     P.ebath_cent = ebath_cent

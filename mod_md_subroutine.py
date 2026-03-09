@@ -14,11 +14,8 @@ def get_kinetic_ene():
     系の全運動エネルギーを返す。
     kine = 0.5 * Σ_ij [fictmass(i,j) * |v(i,j)|^2]
     """
-    kine = 0.0
-    for i in range(P.Natom):
-        for j in range(P.Nbead):
-            kine += P.fictmass[i, j] * norm_seq(P.vur[:, i, j])
-    return 0.5 * kine
+    vur_sq = np.sum(P.vur**2, axis=0)
+    return 0.5 * np.sum(P.fictmass * vur_sq)
 
 
 def temp_ctr():
