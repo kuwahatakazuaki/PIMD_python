@@ -23,13 +23,21 @@ _CALCULATOR_KEY = None
 # # # === For Effective Medium Theory ===
 
 def _build_calculator():
-    ff_name = getattr(P, "ff", "emt")
+    ff_name = getattr(P, "ff", "emt").lower()
     model_path = getattr(P, "model_path", "") or None
     device = getattr(P, "device", "cpu")
 
     if ff_name == "emt":
         from ase.calculators.emt import EMT
         return EMT()
+
+    if ff_name == "matlantis":
+        import pfp_api_client
+        from pfp_api_client.pfp.calculators.ase_calculator import ASECalculator
+        from pfp_api_client.pfp.estimator import Estimator, EstimatorCalcMode
+
+        estimator = Estimator(calc_mode=EstimatorCalcMode.MOLECULE)
+        return ASECalculator(estimator)
 
     if ff_name == "mattersim":
         # Prefer macer's factory path to match macer PIMD behavior.
