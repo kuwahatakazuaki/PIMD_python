@@ -34,7 +34,7 @@ def _build_calculator():
         from pfp_api_client.pfp.calculators.ase_calculator import ASECalculator
         from pfp_api_client.pfp.estimator import Estimator, EstimatorCalcMode
 
-        estimator = Estimator(calc_mode=EstimatorCalcMode.MOLECULE)
+        estimator = Estimator(model_version="v7.0.0",calc_mode=EstimatorCalcMode.MOLECULE)
         return ASECalculator(estimator)
 
     if ff_name == "mattersim":

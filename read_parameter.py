@@ -24,7 +24,7 @@ def read_parameter(filename="input.inp"):
         i += 1
         val = lines[i].strip()
         return float(val) if '.' in val or 'e' in val.lower() else int(val)
-    
+
     def get_bool():
         nonlocal i
         i += 1
@@ -76,8 +76,8 @@ def read_parameter(filename="input.inp"):
             P.dir_scr = get_string()
         elif line.startswith("$force_module"):
             P.force_module = get_string().lower()
-        elif line.startswith("$ff"):
-            P.force_module = get_string().lower()
+        # elif line.startswith("$ff"):
+        #     P.force_module = get_string().lower()
         elif line.startswith("$model_path"):
             P.model_path = get_string()
         elif line.startswith("$device"):

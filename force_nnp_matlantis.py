@@ -8,7 +8,8 @@ import run_matlantis
 def prepare_ase_atoms():
     """Build one ASE Atoms object for each bead from the in-memory coordinates."""
     atoms_list = np.empty(P.Nbead, dtype=object)
-    cell = P.lattice.T * P.AUtoAng if P.Lperiodic else None
+    # LATTICE is read directly from input.inp in Angstrom, so do not convert it again.
+    cell = P.lattice.T if P.Lperiodic else None
     pbc = [True, True, True] if P.Lperiodic else [False, False, False]
 
     for imode in range(P.Nbead):
