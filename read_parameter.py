@@ -74,8 +74,10 @@ def read_parameter(filename="input.inp"):
             P.dir_result = get_string()
         elif line.startswith("$address_scr"):
             P.dir_scr = get_string()
+        elif line.startswith("$force_module"):
+            P.force_module = get_string().lower()
         elif line.startswith("$ff"):
-            P.ff = get_string().lower()
+            P.force_module = get_string().lower()
         elif line.startswith("$model_path"):
             P.model_path = get_string()
         elif line.startswith("$device"):
@@ -138,6 +140,7 @@ def check_input(output_file=None):
         # f.write(f"{'+++++ Seed for Random No.1':26s}{P.Iseeds:12d}\n")
         f.write(f"{'+++++ Address of Result':26s}{P.dir_result}\n")
         f.write(f"{'+++++ Address of Scratch':26s}{P.dir_scr}\n")
+        f.write(f"{'+++++ Force module':26s}{getattr(P, 'force_module', 'emt')}\n")
         f.write("\n+++++ Atomic Label, Mass, and Coords +++++\n")
 
         label = P.alabel # arrays["alabel"]

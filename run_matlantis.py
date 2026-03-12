@@ -21,7 +21,7 @@ _CALCULATOR_KEY = None
 # # # === For Effective Medium Theory ===
 
 def _build_calculator():
-    ff_name = getattr(P, "ff", "emt").lower()
+    ff_name = getattr(P, "force_module", "emt").lower()
     model_path = getattr(P, "model_path", "") or None
     device = getattr(P, "device", "cpu")
 
@@ -54,7 +54,7 @@ def _build_calculator():
 def _get_calculator():
     global _CALCULATOR, _CALCULATOR_KEY
     key = (
-        getattr(P, "ff", "emt"),
+        getattr(P, "force_module", "emt"),
         getattr(P, "model_path", "") or "",
         getattr(P, "device", "cpu"),
     )

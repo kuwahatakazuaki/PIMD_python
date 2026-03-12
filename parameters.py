@@ -105,7 +105,7 @@ Lrestart = False
 Lrandom_coor = False
 
 # Force-field backend options
-ff = "emt"
+force_module = "emt"
 model_path = ""
 device = "cpu"
 
@@ -208,4 +208,3 @@ device = "cpu"
 #     atom_num: Optional[np.ndarray] = field(default=None)
 #     Eenergy: Optional[np.ndarray] = field(default=None)
 #     alabel: Optional[np.ndarray] = field(default=None)
-
