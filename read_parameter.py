@@ -78,6 +78,8 @@ def read_parameter(filename="input.inp"):
             P.force_module = get_string().lower()
         # elif line.startswith("$ff"):
         #     P.force_module = get_string().lower()
+        elif line.startswith("$EstimatorCalcMode"):
+            P.estimator_calc_mode = get_string().strip().upper()
         elif line.startswith("$model_path"):
             P.model_path = get_string()
         elif line.startswith("$device"):
@@ -141,6 +143,11 @@ def check_input(output_file=None):
         f.write(f"{'+++++ Address of Result':26s}{P.dir_result}\n")
         f.write(f"{'+++++ Address of Scratch':26s}{P.dir_scr}\n")
         f.write(f"{'+++++ Force module':26s}{getattr(P, 'force_module', 'emt')}\n")
+        if getattr(P, "force_module", "emt") == "matlantis":
+            f.write(
+                f"{'+++++ EstimatorCalcMode':26s}"
+                f"{getattr(P, 'estimator_calc_mode', 'MOLECULE')}\n"
+            )
         f.write("\n+++++ Atomic Label, Mass, and Coords +++++\n")
 
         label = P.alabel # arrays["alabel"]

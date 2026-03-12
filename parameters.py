@@ -108,6 +108,7 @@ Lrandom_coor = False
 force_module = "emt"
 model_path = ""
 device = "cpu"
+estimator_calc_mode = "MOLECULE"
 
 
 

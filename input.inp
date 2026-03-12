@@ -32,6 +32,8 @@ $address_scr      # Scretch directory
 ./Scr
 $force_module     # emt / matlantis / mattersim
 emt
+$EstimatorCalcMode  # Used when force_module = matlantis
+CRYSTAL_U0
 $seed
 101
 $Langstrom        # Coordinate in Angstrom (True of False)
@@ -54,4 +56,3 @@ O        0.784141   -1.747496   -0.420830
 H        1.051988   -2.602871   -0.743663
 H        1.604494   -1.235467   -0.289941
 $end Coords
-
