@@ -87,5 +87,5 @@ cython_debug/
 *.swp
 *.swo
 tags
-
+AGENTS.md
 

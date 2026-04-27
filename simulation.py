@@ -3,7 +3,7 @@ import parameters as P
 from utility import program_abort
 from restart import restart_read, restart_write, restart_read_cl, restart_write_cl
 from print_start_end import print_ini, print_result_qm, print_ham
-from force_nnp_matlantis import force_nnp_matlantis
+from force_interatomic import force_interatomic
 from mod_md_subroutine import (
     temp_ctr, nmtrans_fr2fur, nmtrans_ur2r, get_force_ref,
     Uupdate, Vupdate, Vupdate_Ref)
@@ -28,7 +28,7 @@ def simulation_qm():
         init_bath()
         temp_ctr()
         nmtrans_ur2r()
-        force_nnp_matlantis()
+        force_interatomic()
         if P.istepsv % P.out_step == 0:
             print_result_qm()
         nmtrans_fr2fur()
@@ -59,7 +59,7 @@ def simulation_qm():
                 nhc_integrate()
 
         nmtrans_ur2r()
-        force_nnp_matlantis()
+        force_interatomic()
         if istepsv % P.out_step == 0:
             print_result_qm()
         nmtrans_fr2fur()
@@ -97,7 +97,7 @@ def simulation_cl():
         init_velocity()
         init_bath_cl()
         P.r[:,:,0] = P.ur[:,:,0]
-        force_nnp_matlantis()
+        force_interatomic()
         P.fur[:,:,0] = P.fr[:,:,0]
         if P.istepsv % P.out_step == 0:
             print_result_qm()
@@ -113,7 +113,7 @@ def simulation_cl():
         Vupdate()
         Uupdate()
         P.r[:,:,0] = P.ur[:,:,0]
-        force_nnp_matlantis()
+        force_interatomic()
         P.fur[:,:,0] = P.fr[:,:,0]
 
         if istepsv % P.out_step == 0:
