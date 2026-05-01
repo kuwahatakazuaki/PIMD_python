@@ -38,15 +38,15 @@ def _get_matlantis_calc_mode(mode_name, estimator_modes):
     return mode
 
 def _build_calculator():
-    ff_name = getattr(P, "force_module", "emt").lower()
+    force_module = P.force_module.lower()
     model_path = getattr(P, "model_path", "") or None
     device = getattr(P, "device", "cpu")
 
-    if ff_name == "emt":
+    if force_module == "emt":
         from ase.calculators.emt import EMT
         return EMT()
 
-    if ff_name == "matlantis":
+    if force_module == "matlantis":
         import pfp_api_client
         from pfp_api_client.pfp.calculators.ase_calculator import ASECalculator
         from pfp_api_client.pfp.estimator import Estimator, EstimatorCalcMode
@@ -58,7 +58,7 @@ def _build_calculator():
         estimator = Estimator(model_version="v7.0.0", calc_mode=calc_mode)
         return ASECalculator(estimator)
 
-    if ff_name == "mattersim":
+    if force_module == "mattersim":
         # Prefer macer's factory path to match macer PIMD behavior.
         try:
             from macer.calculator.factory import get_calculator
@@ -69,7 +69,7 @@ def _build_calculator():
                 return MatterSimCalculator(device=device, load_path=model_path)
             return MatterSimCalculator(device=device)
 
-    raise ValueError(f"Unsupported force field: {ff_name}")
+    raise ValueError(f"Unsupported force field: {force_module}")
 
 
 def _get_calculator():
@@ -87,11 +87,11 @@ def _get_calculator():
 
 def run_cal():
     calculator = _get_calculator()
-    atoms_list = getattr(P, "ase_atoms", None)
-    if atoms_list is None:
+    atoms_bead = getattr(P, "ase_atoms", None)
+    if atoms_bead is None:
         raise ValueError("P.ase_atoms is not prepared. Call prepare_ase_atoms() before run_cal().")
 
-    for i, atoms in enumerate(atoms_list):
+    for i, atoms in enumerate(atoms_bead):
         atoms.calc = calculator
 
         energy = atoms.get_total_energy()
