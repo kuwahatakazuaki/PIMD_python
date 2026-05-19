@@ -181,7 +181,7 @@ def init_velocity():
                 P.vur[k, iatom, imode] = vsigma * np.random.normal(0, 1)
 
     remove_translation_rotation()
-    
+
 
 def init_bath():
     """

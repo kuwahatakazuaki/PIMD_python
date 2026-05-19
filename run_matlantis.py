@@ -3,22 +3,6 @@ import numpy as np
 import parameters as P
 
 _CALCULATOR = None
-_CALCULATOR_KEY = None
-
-# # === For Matlantis ===
-# import pfp_api_client
-# from pfp_api_client.pfp.calculators.ase_calculator import ASECalculator
-# from pfp_api_client.pfp.estimator import Estimator, EstimatorCalcMode
-
-# # === EstimatorCalcMode : CRYSTAL, CRYSTAL_U0, CRYSTAL_PLUS_D3, MOLECULE ===
-# estimator = Estimator(calc_mode=EstimatorCalcMode.MOLECULE)
-# calculator = ASECalculator(estimator)
-# === For Matlantis ===
-
-# # # === For Effective Medium Theory ===
-# from ase.calculators.emt import EMT
-# calculator = EMT()
-# # # === For Effective Medium Theory ===
 
 
 def _get_matlantis_calc_mode(mode_name, estimator_modes):
@@ -39,8 +23,8 @@ def _get_matlantis_calc_mode(mode_name, estimator_modes):
 
 def _build_calculator():
     force_module = P.force_module.lower()
-    model_path = getattr(P, "model_path", "") or None
-    device = getattr(P, "device", "cpu")
+    model_path = P.model_path or None
+    device = P.device
 
     if force_module == "emt":
         from ase.calculators.emt import EMT
@@ -73,21 +57,16 @@ def _build_calculator():
 
 
 def _get_calculator():
-    global _CALCULATOR, _CALCULATOR_KEY
-    key = (
-        getattr(P, "force_module", "emt"),
-        getattr(P, "model_path", "") or "",
-        getattr(P, "device", "cpu"),
-    )
-    if _CALCULATOR is None or _CALCULATOR_KEY != key:
+    # Build the ASE calculator once and reuse it for all force evaluations.
+    global _CALCULATOR
+    if _CALCULATOR is None:
         _CALCULATOR = _build_calculator()
-        _CALCULATOR_KEY = key
     return _CALCULATOR
 
 
 def run_cal():
     calculator = _get_calculator()
-    atoms_bead = getattr(P, "ase_atoms", None)
+    atoms_bead = P.ase_atoms
     if atoms_bead is None:
         raise ValueError("P.ase_atoms is not prepared. Call prepare_ase_atoms() before run_cal().")
 
@@ -104,3 +83,4 @@ def run_cal():
     P.fr *= P.eVAng2AU * P.dp_inv
     P.Eenergy *= P.eVtoAU
     P.potential = np.sum(P.Eenergy) * P.dp_inv
+

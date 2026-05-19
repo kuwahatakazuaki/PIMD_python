@@ -28,3 +28,4 @@ def prepare_ase_atoms():
 def force_interatomic():
     prepare_ase_atoms()
     run_matlantis.run_cal()
+
