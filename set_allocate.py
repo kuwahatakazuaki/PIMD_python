@@ -42,35 +42,3 @@ def allocate_arrays():
         P.qmcent31  = np.zeros(P.Nnhc)
 
 
-# import numpy as np
-# from typing import Dict, Any
-
-# def allocate_arrays(Natom: int, Nbead: int, Nnhc: int, Nys: int, Ncent: int, Isimulation: int) -> Dict[str, Any]:
-#     """
-#     Allocate and return all required simulation arrays as a dictionary.
-#     """
-
-
-#     if Isimulation != 10:
-#         arrays.update({
-#             "qmass":    np.zeros(Nbead),
-#             "fur_ref":  np.zeros((3, Natom, Nbead)),
-#             "tnm":      np.zeros((Nbead, Nbead)),
-#             "tnminv":   np.zeros((Nbead, Nbead)),
-#             "u":        np.zeros((Nbead, Nbead)),
-#             "uinv":     np.zeros((Nbead, Nbead)),
-#             "rbath":    np.zeros((3, Natom, Nnhc, Nbead)),
-#             "vrbath":   np.zeros((3, Natom, Nnhc, Nbead)),
-#             "frbath":   np.zeros((3, Natom, Nnhc, Nbead)),
-#         })
-
-#     if Ncent == 3:
-#         arrays.update({
-#             "rbc31":    np.zeros((3, Natom, Nnhc)),
-#             "vrbc31":   np.zeros((3, Natom, Nnhc)),
-#             "frbc31":   np.zeros((3, Natom, Nnhc)),
-#             "qmcent31": np.zeros(Nnhc),
-#         })
-
-#     return arrays
-

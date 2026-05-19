@@ -3,6 +3,7 @@ import numpy as np
 from ase import Atoms
 import parameters as P
 import run_matlantis
+import run_spcf
 
 
 def prepare_ase_atoms():
@@ -20,12 +21,18 @@ def prepare_ase_atoms():
             cell=cell,
             pbc=pbc,
         )
-
     P.ase_atoms = atoms_bead
 
-
-
 def force_interatomic():
-    prepare_ase_atoms()
-    run_matlantis.run_cal()
+    force_module = P.force_module.lower()
+    if force_module in {"emt", "matlantis", "mattersim"}:
+        prepare_ase_atoms()
+        run_matlantis.run_cal()
+    elif force_module == "spcf":
+        run_spcf.run_cal()
+    else:
+        raise ValueError(
+            f'Unsupported force_module: "{force_module}". '
+            'Choose from emt, matlantis, mattersim, spcf.'
+        )
 

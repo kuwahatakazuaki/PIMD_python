@@ -14,15 +14,15 @@ $Ncent            # Method of Centroid NHC, 0: NVE, 3: NVT
 3
 $Lrestart         # Chose "True" or "False"
 False
-$Iforce           # 1:MOPAC, 6:Gaussian, 8:VASP, 9:SIESTA, 15:Harmonic, 16:Double Morse 31:Water(SPC/F2)
-31
+# $Iforce           # 1:MOPAC, 6:Gaussian, 8:VASP, 9:SIESTA, 15:Harmonic, 16:Double Morse 31:Water(SPC/F2)
+# 31
 $Lperiodic        # Periodic boundary condition (True of False)
 False
 $address_result   # Result directory
 ./Result
 $address_scr      # Scretch directory
 ./Scr
-$force_module     # emt / matlantis / mattersim
+$force_module     # emt / matlantis / mattersim / spcf
 emt
 $EstimatorCalcMode  # Used when force_module = matlantis
 CRYSTAL_U0
