@@ -37,7 +37,6 @@ Isimulation: int  = -1   # シミュレーションタイプ（古典 or PIMD）
 Nref: int         = 5
 gamma1: float     = 1.0
 gamma2: float     = 0.0
-istepsv: int      = 0
 Irestep: int      = 0
 Iseed: int       = 0
 
@@ -111,76 +110,6 @@ device = "cpu"
 estimator_calc_mode = "MOLECULE"
 
 
-
-# import numpy as np
-# from dataclasses import dataclass, field
-# from typing import ClassVar, Optional
-
-# @dataclass
-# class Parameters:
-#     # --- Physical constants ---
-#     pi: ClassVar[float] = np.pi
-#     fs2AU: ClassVar[float] = 1.0 / 0.024188843
-#     factmass: ClassVar[float] = 1.6605402e-27 / 9.1093897e-31
-#     eVtoAU: ClassVar[float] = 1.0 / 27.21162
-#     AngtoAU: ClassVar[float] = 1.0 / 0.529177249
-#     AUtoAng: ClassVar[float] = 0.529177249
-#     AUtoJ: ClassVar[float] = 4.35974434e-18
-#     KtoAU: ClassVar[float] = 8.617333262145e-5 / 27.211396132
-#     eVAng2AU: ClassVar[float] = (1.0 / 27.21162) * 0.529177249
-
-#     # --- Integer parameters ---
-#     Natom: int = 0
-#     Nbead: int = 0
-#     Nstep: int = 0
-#     Isimulation: int = 0
-#     Nref: int = 0
-#     Nys: int = 0
-#     Nnhc: int = 0
-#     out_step: int = 1
-#     Ncent: int = 0
-#     Irestep: int = 0
-#     laddress: int = 0
-#     istepsv: int = 0
-
-#     # --- Real scalar variables ---
-#     gamma1: float = 1.0
-#     gamma2: float = 0.0
-#     omega_system: float = 0.0
-#     omega_p2: float = 0.0
-#     omega2: float = 0.0
-#     gkt: float = 0.0
-#     gnkt: float = 0.0
-#     dp_inv: float = 0.0
-#     E_Virial: float = 0.0
-#     ebath: float = 0.0
-#     ebath_cent: float = 0.0
-#     dkinetic: float = 0.0
-#     qkinetic: float = 0.0
-#     beta: float = 0.0
-#     temperature: float = 0.0
-#     dt: float = 0.0
-#     dt_ref: float = 0.0
-#     potential: float = 0.0
-#     hamiltonian: float = 0.0
-#     temp: float = 0.0
-
-#     # --- File names and paths ---
-#     Finp: str = "input.inp"
-#     Fout: str = "std.out"
-#     Ferr: str = "std.err"
-#     name_simulation: str = ""
-#     dir_result: str = ""
-#     dir_scr: str = ""
-#     address0: str = ""
-#     addresstmp: str = ""
-
-#     # --- Logical flags ---
-#     Lsave_force: bool = False
-#     Langstrom: bool = True
-#     Lperiodic: bool = False
-#     Lrestart: bool = False
-#     Lrandom_coor: bool = False
 
 #     # --- Arrays (to be initialized later) ---
 #     r: Optional[np.ndarray] = field(default=None)

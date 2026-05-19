@@ -139,12 +139,12 @@ def restart_read_cl():
 
 
 def restart_write_cl(istep):
-    if istep > 1:
-        path_old = f"{P.dir_result}/restart.dat"
+    path_old = f"{P.dir_result}/restart.dat"
+    if istep > 1 and os.path.exists(path_old):
         path_new = f"{P.dir_result}/restart1.dat"
         shutil.copyfile(path_old, path_new)
 
-    with open(f"{P.dir_result}/restart.dat", 'w') as f:
+    with open(path_old, 'w') as f:
         f.write(f"{istep:10d}\n")
 
         for i in range(P.Natom):

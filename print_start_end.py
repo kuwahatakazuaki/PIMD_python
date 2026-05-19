@@ -74,7 +74,7 @@ def print_ini():
 
 
 
-def print_result_qm():
+def print_result(Istep):
     """
     Fortran サブルーチン `print_result_qm` に対応。
     座標（coor.xyz）と、必要であれば力（force.dat）を出力。
@@ -86,7 +86,7 @@ def print_result_qm():
     # === 座標出力 (coor.xyz) ===
     with open(coor_path, "a") as fcoor:
         fcoor.write(f"{P.Natom * P.Nbead:5d}\n")
-        fcoor.write(f"{P.istepsv:10d}\n")
+        fcoor.write(f"{Istep:10d}\n")
         for imode in range(P.Nbead):
             for iatom in range(P.Natom):
                 x, y, z = P.r[:, iatom, imode] * P.AUtoAng
@@ -95,7 +95,7 @@ def print_result_qm():
     # === 力出力 (force.dat) ===
     if P.Lsave_force:
         with open(force_path, "a") as ffor:
-            ffor.write(f"# {P.istepsv:10d}\n")
+            ffor.write(f"# {Istep:10d}\n")
             for imode in range(P.Nbead):
                 for iatom in range(P.natom):
                     fx, fy, fz = P.fr[:, iatom, imode]
@@ -137,4 +137,3 @@ def print_ham(Istep):
         print_ham_qm()
     elif P.Isimulation == 10:
         print_ham_cl()
-

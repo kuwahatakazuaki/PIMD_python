@@ -2,7 +2,7 @@
 import parameters as P
 from utility import program_abort
 from restart import restart_read, restart_write, restart_read_cl, restart_write_cl
-from print_start_end import print_ini, print_result_qm, print_ham
+from print_start_end import print_ini, print_result, print_ham
 from force_interatomic import force_interatomic
 from mod_md_subroutine import (
     temp_ctr, nmtrans_fr2fur, nmtrans_ur2r, get_force_ref,
@@ -29,17 +29,15 @@ def simulation_qm():
         temp_ctr()
         nmtrans_ur2r()
         force_interatomic()
-        if P.istepsv % P.out_step == 0:
-            print_result_qm()
+        if P.Irestep % P.out_step == 0:
+            print_result(P.Irestep)
         nmtrans_fr2fur()
         ham_temp()
         print_ham(P.Irestep)
 
     get_force_ref()
 
-    for istepsv in range(P.Irestep + 1, P.Nstep + 1):
-        P.istepsv = istepsv
-
+    for Istep in range(P.Irestep + 1, P.Nstep + 1):
         if P.Ncent == 3:
             nhc_integrate_cent3()
         Vupdate()
@@ -60,8 +58,8 @@ def simulation_qm():
 
         nmtrans_ur2r()
         force_interatomic()
-        if istepsv % P.out_step == 0:
-            print_result_qm()
+        if Istep % P.out_step == 0:
+            print_result(Istep)
         nmtrans_fr2fur()
         Vupdate()
 
@@ -69,12 +67,12 @@ def simulation_qm():
             nhc_integrate_cent3()
 
         ham_temp()
-        print_ham(istepsv)
+        print_ham(Istep)
 
-        if istepsv % P.out_step == 0:
-            restart_write(istepsv)
+        if Istep % P.out_step == 0:
+            restart_write(Istep)
 
-    #     if istepsv % 10 == 0:
+    #     if Istep % 10 == 0:
     #         exit_program()
 
     with open(P.Fout, "a") as fout:
@@ -86,10 +84,6 @@ def simulation_cl():
     setup_time_mass()
     init_mass()
 
-    # for i in range(P.Natom):
-    #     print(P.r[:,i,0])
-    # exit(1)
-
     if P.Lrestart:
         restart_read_cl()
     else:
@@ -99,14 +93,12 @@ def simulation_cl():
         P.r[:,:,0] = P.ur[:,:,0]
         force_interatomic()
         P.fur[:,:,0] = P.fr[:,:,0]
-        if P.istepsv % P.out_step == 0:
-            print_result_qm()
+        if P.Irestep % P.out_step == 0:
+            print_result(P.Irestep)
         ham_temp_cl()
         print_ham(P.Irestep)
 
-    for istepsv in range(P.Irestep + 1, P.Nstep + 1):
-        P.istepsv = istepsv
-
+    for Istep in range(P.Irestep + 1, P.Nstep + 1):
         if P.Ncent == 3:
             nhc_integrate_cent3()
 
@@ -116,8 +108,8 @@ def simulation_cl():
         force_interatomic()
         P.fur[:,:,0] = P.fr[:,:,0]
 
-        if istepsv % P.out_step == 0:
-            print_result_qm()
+        if Istep % P.out_step == 0:
+            print_result(Istep)
 
         Vupdate()
 
@@ -125,10 +117,10 @@ def simulation_cl():
             nhc_integrate_cent3()
 
         ham_temp_cl()
-        print_ham(istepsv)
+        print_ham(Istep)
 
-        if istepsv % P.out_step == 0:
-            restart_write_cl(istepsv)
+        if Istep % P.out_step == 0:
+            restart_write_cl(Istep)
 
     with open(P.Fout, "a") as fout:
         fout.write(" " + "*" * 95 + "\n")
