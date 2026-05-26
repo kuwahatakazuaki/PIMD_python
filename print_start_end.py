@@ -86,7 +86,12 @@ def print_result(Istep):
     # === 座標出力 (coor.xyz) ===
     with open(coor_path, "a") as fcoor:
         fcoor.write(f"{P.Natom * P.Nbead:5d}\n")
-        fcoor.write(f"{Istep:10d}\n")
+        lattice = " ".join(f"{value:.9E}" for j in range(3) for value in P.lattice[:, j])
+        pbc = "T T T" if P.Lperiodic else "F F F"
+        fcoor.write(
+            f'Lattice="{lattice}" Properties=species:S:1:pos:R:3 '
+            f'pbc="{pbc}" Step={Istep} Nbead={P.Nbead}\n'
+        )
         for imode in range(P.Nbead):
             for iatom in range(P.Natom):
                 x, y, z = P.r[:, iatom, imode] * P.AUtoAng
@@ -97,7 +102,7 @@ def print_result(Istep):
         with open(force_path, "a") as ffor:
             ffor.write(f"# {Istep:10d}\n")
             for imode in range(P.Nbead):
-                for iatom in range(P.natom):
+                for iatom in range(P.Natom):
                     fx, fy, fz = P.fr[:, iatom, imode]
                     ffor.write(f"{fx:15.10f}{fy:15.10f}{fz:15.10f}\n")
 

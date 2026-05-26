@@ -43,7 +43,7 @@ def _build_calculator():
         return ASECalculator(estimator)
 
     if force_module == "mattersim":
-        # Prefer macer's factory path to match macer PIMD behavior.
+        # Prefer mattersim's factory path to match macer PIMD behavior.
         try:
             from macer.calculator.factory import get_calculator
             return get_calculator(ff_name="mattersim", model_path=model_path, device=device)
